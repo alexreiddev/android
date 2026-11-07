@@ -23,3 +23,24 @@ Every non-obvious choice made while building the BLOB site, with the reason. New
 - **Reduced motion:** the canvas never starts. The static layer shows the central blob glowing.
 - **Pausing:** IntersectionObserver (off-screen) and `visibilitychange` (tab hidden) stop the RAF loop. While all blobs sleep, redraws drop to ~15 fps.
 - **The hero is always "night"** (`.night-scope` re-scopes the tokens), even in the dawn theme. The product only makes sense in the dark.
+
+## Phase 3: Pages & content
+
+- **Copy rules applied:** every spec is labelled "(target)" with the "Pre-launch: specifications are design targets" note. Every price says "indicative". Unknown facts (contact email, WhatsApp, socials, legal entity, pilot count/terms, policy numbers, founder story) render as dashed placeholders. Things I removed because they weren't in the brief: when the orchard trial ran, why it was named "Varsha", and any longevity claim.
+- **Competitors are never named.** The comparison says "Always-on solar pebbles", a generic category.
+- **Testimonials:** `components/Testimonials.tsx` is ready but returns `null` while its list is empty. It isn't imported on any page.
+- **Illustrations instead of photos:** tier heroes and cards use the SVG `<Blob>` in three tones (frosted, silicone, glass), each labelled "Illustration". Future media slots use `<PlaceholderMedia>`, which shows a visible "Placeholder film/photo" badge.
+- **404:** a single sleeping blob inside a focusable button wakes over 1.6 s on hover *or keyboard focus* and fades over 6 s. Pure CSS.
+- **Legal pages** are structured TS (`content/legal.ts`). `[[KEY]]` tokens render as placeholders, or as the value from `content/site.ts` once set. Each page shows a "Draft: review before launch" banner.
+
+## Phase 4: Forms & data
+
+- **Server actions** (`app/actions.ts`) for all four forms. Pipeline: honeypot (silent fake success) → optional Turnstile → zod validation → per-IP rate limit → insert with the service-role client → emails via `after()` so the response isn't delayed.
+- **Same zod schemas on client and server** (`lib/validation.ts`). The client validates on submit, then marks fields `aria-invalid`, links errors with `aria-describedby`, moves focus to the first invalid field and announces a message in a polite live region. Without JS, forms still post to the server action.
+- **Rate limiting in Postgres** (`rate_limit_hit()` function), because in-memory limits don't hold across serverless instances. The key is a SHA-256 hash of the IP, and rows are purged after a day. In-memory fallback when Supabase is absent.
+- **RLS on, no policies, and privileges revoked from `anon`/`authenticated`**, so the only path in is the server's service-role key. The service key is read only in `server-only` modules.
+- **Uploads:** the browser asks `/api/atelier/upload-urls` for signed upload URLs (≤5 files, image types, ≤10 MB, validated) and PUTs files straight to Supabase Storage. That avoids Vercel's ~4.5 MB function body limit. The bucket is private and enforces the 10 MB limit and MIME list server-side. The commission row stores only object paths, and the server only accepts paths matching the format it issued.
+- **No Supabase configured:** in dev, submissions are logged to the console. In production the form shows a polite error rather than pretending to save.
+- **Waitlist:** no separate consent checkbox. Submitting the form *is* the consent; the form says so and links the privacy notice, and `consent` defaults to `true`. A duplicate email returns a friendly "already on the list" message.
+- **Emails (Resend):** owner notification for B2B quotes and Atelier commissions (`NOTIFY_EMAIL_TO`). A short warm auto-reply goes to every submitter. Skipped silently with no API key.
+- **Razorpay (Phase 2) is built but off.** `ReserveButton` renders nothing unless `NEXT_PUBLIC_ENABLE_PREORDER=true`. The order/verify routes return 404 while disabled. The payment signature is verified with HMAC-SHA256 plus a timing-safe compare, and contact details are fetched from Razorpay rather than trusted from the client.
