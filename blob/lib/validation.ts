@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+// No eval-based JIT: keeps zod compatible with our CSP (no 'unsafe-eval').
+z.config({ jitless: true });
+
 /** Shared by client (instant feedback) and server (source of truth). */
 
 const trimmed = (max: number) => z.string().trim().max(max, `Please keep this under ${max} characters.`);

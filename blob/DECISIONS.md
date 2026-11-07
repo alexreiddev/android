@@ -53,3 +53,11 @@ Every non-obvious choice made while building the BLOB site, with the reason. New
 - **Structured data:** Organization (layout), Product per tier (no `offers` until `price.confirmed` and `amountInr` are set), FAQPage (how-it-works), BreadcrumbList on inner pages.
 - **OG images** are generated per route with `next/og`: dark scene, glowing blob, page title. Twitter cards fall back to them.
 - **robots.txt** disallows everything on Vercel preview deployments, and only `/api/` in production.
+
+## Phase 6: Deploy
+
+- **Vercel project `blob-site`** (team "chainofmail000-4321's projects"), Root Directory `blob`, deployed from the GitHub branch. Production domain: `blob-site-amber.vercel.app` (canonical URLs come from `VERCEL_PROJECT_PRODUCTION_URL` until `NEXT_PUBLIC_SITE_URL` is set).
+- **Deployment Protection** was changed from "all except custom domains" to **previews only**, so the public production URL is reachable. Previews still require Vercel login.
+- **Function region `bom1` (Mumbai)**, close to Indian visitors and to Supabase `ap-south-1`.
+- **Zod `jitless` mode.** Zod 4 probes `new Function()` for JIT-compiled validators. Our CSP (correctly) has no `'unsafe-eval'`, which logged a CSP issue in Chrome DevTools and cost Best Practices points. Validation is just as correct without the JIT.
+- **Deployed without a database, at the owner's request.** Forms answer "Our forms are resting right now" in production until `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set and the migration is applied.
