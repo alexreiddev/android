@@ -88,6 +88,7 @@
   --ease-breathe: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
+@layer base {
 html {
   background: var(--bg);
   -webkit-text-size-adjust: 100%;
@@ -133,6 +134,8 @@ a {
   outline-offset: 3px;
   border-radius: 0.75rem;
   box-shadow: 0 0 0 6px rgb(255 181 71 / 0.22);
+}
+
 }
 
 /* ---------- Reusable pieces ---------- */
@@ -351,4 +354,34 @@ a {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Scenes that always live at night, whatever the theme. */
+.night-scope {
+  --bg: var(--night-900);
+  --bg-raised: var(--night-800);
+  --bg-sunken: var(--night-950);
+  --surface: var(--night-700);
+  --line: rgb(217 214 204 / 0.12);
+  --line-strong: rgb(217 214 204 / 0.26);
+  --ink: var(--mist-200);
+  --ink-strong: #f1eee6;
+  --ink-muted: var(--mist-300);
+  --accent-ink: var(--amber-300);
+  --placeholder-bg: rgb(255 181 71 / 0.1);
+  color-scheme: dark;
+  color: var(--ink);
+  background-color: var(--night-900);
+}
+
+.hero-static {
+  transition: opacity 1.4s var(--ease-breathe);
+}
+[data-canvas="ready"] .hero-static {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-static .rm-glow .blob-light {
+    opacity: 1 !important;
+  }
 }
