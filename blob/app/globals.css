@@ -1,0 +1,354 @@
+@import "tailwindcss";
+
+/*
+ * BLOB design tokens.
+ * Raw palette first, then semantic tokens that switch between
+ * "night" (default, dark) and "dawn" (light).
+ */
+:root {
+  --night-950: #070a08;
+  --night-900: #0b0f0c;
+  --night-800: #121813;
+  --night-700: #182019;
+  --moss-700: #223024;
+  --moss-600: #2e3b2f;
+  --moss-500: #44564a;
+  --mist-200: #d9d6cc;
+  --mist-300: #b9b6aa;
+  --amber-200: #ffe3b8;
+  --amber-300: #ffd08a;
+  --amber-400: #ffb547;
+  --ember-600: #c9731e;
+  --ember-800: #7a4310;
+  --dawn-50: #fbf7ef;
+  --dawn-100: #f4eee2;
+  --dawn-200: #e9e1d0;
+
+  /* Semantic: night (default) */
+  --bg: var(--night-900);
+  --bg-raised: var(--night-800);
+  --bg-sunken: var(--night-950);
+  --surface: var(--night-700);
+  --line: rgb(217 214 204 / 0.12);
+  --line-strong: rgb(217 214 204 / 0.24);
+  --ink: var(--mist-200);
+  --ink-strong: #f1eee6;
+  --ink-muted: var(--mist-300);
+  --glow: var(--amber-400);
+  --glow-soft: var(--amber-300);
+  --accent-ink: var(--amber-300); /* text-safe accent */
+  --on-glow: var(--night-900);
+  --ember: var(--ember-600);
+  --placeholder-bg: rgb(255 181 71 / 0.1);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: var(--dawn-50);
+  --bg-raised: var(--dawn-100);
+  --bg-sunken: var(--dawn-200);
+  --surface: #fffcf5;
+  --line: rgb(36 48 36 / 0.14);
+  --line-strong: rgb(36 48 36 / 0.28);
+  --ink: #2a3529;
+  --ink-strong: #172017;
+  --ink-muted: #4b5a4a;
+  --glow: var(--amber-400);
+  --glow-soft: var(--amber-300);
+  --accent-ink: var(--ember-800);
+  --on-glow: var(--night-900);
+  --ember: var(--ember-600);
+  --placeholder-bg: rgb(201 115 30 / 0.12);
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-sunken: var(--bg-sunken);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-ink-muted: var(--ink-muted);
+  --color-glow: var(--glow);
+  --color-glow-soft: var(--glow-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-on-glow: var(--on-glow);
+  --color-ember: var(--ember);
+  --color-moss: var(--moss-600);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --radius-blob: 2.25rem;
+  --ease-breathe: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+  color: var(--ink-strong);
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgb(255 181 71 / 0.35);
+  color: var(--ink-strong);
+}
+
+/* Visible focus: a soft amber glow, never a hard box. */
+:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: 3px;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0 6px rgb(255 181 71 / 0.22);
+}
+
+/* ---------- Reusable pieces ---------- */
+
+.prose-blob p + p {
+  margin-top: 1rem;
+}
+.prose-blob h2 {
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose-blob h3 {
+  font-size: 1.15rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.prose-blob ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-top: 0.75rem;
+}
+.prose-blob li + li {
+  margin-top: 0.35rem;
+}
+.prose-blob a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.placeholder-mark {
+  background: var(--placeholder-bg);
+  color: var(--accent-ink);
+  border: 1px dashed currentColor;
+  border-radius: 0.5rem;
+  padding: 0 0.35em;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.glow-text {
+  text-shadow: 0 0 28px rgb(255 181 71 / 0.35);
+}
+
+.organic-card {
+  border-radius: 2.4rem 2rem 2.6rem 1.8rem / 2rem 2.6rem 1.9rem 2.4rem;
+}
+
+.organic-pill {
+  border-radius: 999px;
+}
+
+/* Blob glow states (CSS-driven, for static <Blob> uses). */
+.blob-wake .blob-light {
+  opacity: var(--blob-rest, 0.08);
+  transition: opacity 6s var(--ease-breathe);
+}
+.blob-wake:hover .blob-light,
+.blob-wake:focus-visible .blob-light,
+.blob-wake[data-awake="true"] .blob-light {
+  opacity: 1;
+  transition: opacity 1.6s var(--ease-breathe);
+}
+
+@keyframes blob-breathe {
+  0%,
+  100% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes blob-awaken {
+  0% {
+    opacity: 0.06;
+  }
+  35%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.06;
+  }
+}
+
+@keyframes blob-fade {
+  0%,
+  15% {
+    opacity: 1;
+  }
+  85%,
+  100% {
+    opacity: 0.06;
+  }
+}
+
+@keyframes blob-sleep {
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes ring-out {
+  0% {
+    transform: scale(0.35);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes walk-around {
+  from {
+    transform: rotate(0deg) translateX(var(--orbit, 120px)) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(var(--orbit, 120px)) rotate(-360deg);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-breathe {
+  animation: blob-breathe 5.5s var(--ease-breathe) infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.anim-awaken {
+  animation: blob-awaken 9s var(--ease-breathe) infinite;
+}
+.anim-fade {
+  animation: blob-fade 10s var(--ease-breathe) infinite;
+}
+.anim-sleep {
+  opacity: 0.08;
+  animation: blob-sleep 7s var(--ease-breathe) infinite;
+}
+.anim-ring {
+  animation: ring-out 4.5s var(--ease-breathe) infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.anim-walk {
+  animation: walk-around 18s linear infinite;
+}
+
+/* Only run decorative animations while their section is in view. */
+[data-inview="false"] .anim-breathe,
+[data-inview="false"] .anim-awaken,
+[data-inview="false"] .anim-fade,
+[data-inview="false"] .anim-sleep,
+[data-inview="false"] .anim-ring,
+[data-inview="false"] .anim-walk {
+  animation-play-state: paused;
+}
+
+.reveal {
+  animation: fade-up 1.6s var(--ease-breathe) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .anim-awaken,
+  .anim-fade,
+  .anim-breathe {
+    animation: none !important;
+    opacity: 1;
+  }
+  .anim-sleep {
+    animation: none !important;
+    opacity: 0.08;
+  }
+  .anim-ring,
+  .anim-walk {
+    animation: none !important;
+  }
+  .reveal {
+    animation: none !important;
+  }
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
