@@ -7,7 +7,7 @@ export const storyDraft = true;
 export const story = {
   lede: "BLOB began with a simple question in a dark orchard: what if the light only woke for you?",
   orchard: [
-    "Our first field trial ran in a rambutan orchard in Kerala. We called it Project Varsha, for the rain.",
+    "Our first field trial ran in a rambutan orchard in Kerala. We called it Project Varsha.",
     "Under a thick canopy, solar lights barely charge. Through the monsoon, they barely glow. And when they do, they glow all night, for no one.",
     "So we tried the opposite. Small lights that sleep in the dark and wake gently when someone walks by. Then fade, slowly, once they've gone.",
   ],

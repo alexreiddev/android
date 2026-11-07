@@ -74,7 +74,7 @@ export function SiteHeader() {
             href="/#waitlist"
             event="cta_join_waitlist"
             eventProps={{ location: "header" }}
-            className={`${btn.primary} hidden !px-4 !py-2 text-sm sm:inline-flex`}
+            className={`${btn.primary} !px-4 !py-2 text-sm whitespace-nowrap max-sm:!hidden`}
           >
             Join waitlist
           </TrackedLink>
