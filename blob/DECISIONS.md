@@ -44,3 +44,12 @@ Every non-obvious choice made while building the BLOB site, with the reason. New
 - **Waitlist:** no separate consent checkbox. Submitting the form *is* the consent; the form says so and links the privacy notice, and `consent` defaults to `true`. A duplicate email returns a friendly "already on the list" message.
 - **Emails (Resend):** owner notification for B2B quotes and Atelier commissions (`NOTIFY_EMAIL_TO`). A short warm auto-reply goes to every submitter. Skipped silently with no API key.
 - **Razorpay (Phase 2) is built but off.** `ReserveButton` renders nothing unless `NEXT_PUBLIC_ENABLE_PREORDER=true`. The order/verify routes return 404 while disabled. The payment signature is verified with HMAC-SHA256 plus a timing-safe compare, and contact details are fetched from Razorpay rather than trusted from the client.
+
+## Phase 5: SEO, analytics, accessibility, security
+
+- **Fonts use `display: "optional"`.** With `swap`, Lighthouse counted the late font swap as the LCP (≈3.1 s on simulated 4G). With `optional`, a first visit on a slow connection keeps the size-adjusted fallback (no layout shift, CLS 0), and later visits use Fraunces/Manrope from cache. Fraunces is loaded with only the `SOFT` axis (120 KB → 56 KB).
+- **CSP without nonces.** Nonces would force every page to render dynamically, costing TTFB and LCP. The policy is `'self'` plus `'unsafe-inline'` (needed for Next's inline bootstrap and the theme script). Third-party origins (Plausible, Turnstile, Razorpay, Supabase storage, the Vercel preview toolbar) are added **only when their env var is set**. Also set: HSTS (2 years, preload), `X-Frame-Options: DENY`, `frame-ancestors 'none'`, `nosniff`, a strict Referrer-Policy and a Permissions-Policy (tilt sensors allowed for self only).
+- **Analytics:** Vercel Web Analytics (cookieless, no banner needed). Events: `cta_*` clicks via `<TrackedLink>`, and `form_submit_*` on success. Plausible loads too if `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` is set. On localhost, `/_vercel/insights/script.js` 404s, which is the only Best Practices deduction locally; it exists once deployed on Vercel.
+- **Structured data:** Organization (layout), Product per tier (no `offers` until `price.confirmed` and `amountInr` are set), FAQPage (how-it-works), BreadcrumbList on inner pages.
+- **OG images** are generated per route with `next/og`: dark scene, glowing blob, page title. Twitter cards fall back to them.
+- **robots.txt** disallows everything on Vercel preview deployments, and only `/api/` in production.
