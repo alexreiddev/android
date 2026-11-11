@@ -14,6 +14,11 @@ const propertyTypes = [
   { value: "campsite", label: "Campsite" },
   { value: "other", label: "Other" },
 ];
+const interests = [
+  { value: "fleet_quote", label: "A fleet quote" },
+  { value: "pilot", label: "The pilot programme" },
+  { value: "night_demo", label: "A night demo at my property" },
+];
 const areas = [
   { value: "paths", label: "Paths" },
   { value: "gardens", label: "Gardens" },
@@ -38,13 +43,14 @@ const budgets = [
 export function QuoteForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const f = useBlobForm({
-    formRef, action: submitB2B, schema: b2bSchema, arrayKeys: ["areas"], event: "form_submit_b2b_quote" });
+    formRef, action: submitB2B, schema: b2bSchema, arrayKeys: ["areas", "interests"], event: "form_submit_b2b_quote" });
   const e = f.errors;
   return (
     <FormFrame state={f.state} message={f.message} successTitle="Request received.">
       <form ref={formRef} action={f.formAction} onSubmit={f.onSubmit} noValidate className="relative grid gap-5 sm:grid-cols-2">
         <Honeypot />
         <MetaFields />
+        <ChoiceGroup name="interests" label="I'm interested in" options={interests} error={e.interests} className="sm:col-span-2" />
         <TextField name="property_name" label="Property name" autoComplete="organization" required error={e.property_name} />
         <SelectField name="property_type" label="Property type" options={propertyTypes} required error={e.property_type} />
         <TextField name="contact_name" label="Your name" autoComplete="name" required error={e.contact_name} />

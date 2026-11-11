@@ -32,11 +32,11 @@ export default function Home() {
             Small glowing forms that wake when you walk by — and fade when you leave.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <TrackedLink href="/collection" event="cta_explore_collection" className={btn.primary}>
-              Explore the collection
-            </TrackedLink>
-            <TrackedLink href="/resorts" event="cta_resorts" eventProps={{ location: "hero" }} className={btn.secondary}>
+            <TrackedLink href="/resorts" event="cta_resorts" eventProps={{ location: "hero" }} className={btn.primary}>
               For resorts &amp; homestays
+            </TrackedLink>
+            <TrackedLink href="/collection" event="cta_explore_collection" className={btn.secondary}>
+              Explore the collection
             </TrackedLink>
           </div>
           <p className="mt-10 hidden text-sm text-ink-muted sm:block">Move closer to the lights below.</p>
@@ -55,6 +55,40 @@ export default function Home() {
           />
           <div className="mt-12">
             <BehaviourStory />
+          </div>
+        </Container>
+      </section>
+
+      {/* Resorts teaser */}
+      <section aria-labelledby="resorts-teaser" className="py-20">
+        <Container>
+          <div className="night-scope organic-card relative overflow-hidden border border-line px-6 py-14 sm:px-12">
+            <div aria-hidden className="absolute -right-10 bottom-0 w-64 opacity-90 sm:w-80">
+              <Blob seed={7} state="breathe" className="text-[#d9d6cc]" />
+            </div>
+            <div className="relative max-w-xl">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent-ink">For resorts &amp; homestays</p>
+              <h2 id="resorts-teaser" className="text-3xl sm:text-4xl">
+                Light your paths without lighting up the night.
+              </h2>
+              <p className="mt-4 text-lg text-ink">
+                No trenching, no wiring, no solar panels. Guests feel guided, not floodlit, and your staff swap cells in seconds.
+              </p>
+              <p className="mt-3 text-ink-muted">
+                We&apos;re choosing a few Kerala properties for our first pilot.{" "}
+                <a href="/resorts#pilot" className="text-accent-ink underline underline-offset-4">
+                  See the pilot
+                </a>
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <TrackedLink href="/resorts" event="cta_resorts" eventProps={{ location: "home_teaser" }} className={btn.primary}>
+                  See BLOB for resorts
+                </TrackedLink>
+                <TrackedLink href="/resorts#quote" event="cta_fleet_quote" eventProps={{ location: "home_teaser" }} className={btn.secondary}>
+                  Request a fleet quote
+                </TrackedLink>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
@@ -119,34 +153,6 @@ export default function Home() {
             <TrackedLink href="/story" event="cta_read_story" className={`${btn.link} mt-6 inline-block`}>
               Read our story
             </TrackedLink>
-          </div>
-        </Container>
-      </section>
-
-      {/* Resorts teaser */}
-      <section aria-labelledby="resorts-teaser" className="py-20">
-        <Container>
-          <div className="night-scope organic-card relative overflow-hidden border border-line px-6 py-14 sm:px-12">
-            <div aria-hidden className="absolute -right-10 bottom-0 w-64 opacity-90 sm:w-80">
-              <Blob seed={7} state="breathe" className="text-[#d9d6cc]" />
-            </div>
-            <div className="relative max-w-xl">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent-ink">For resorts &amp; homestays</p>
-              <h2 id="resorts-teaser" className="text-3xl sm:text-4xl">
-                Light your paths without lighting up the night.
-              </h2>
-              <p className="mt-4 text-lg text-ink">
-                No trenching, no wiring, no solar panels. Guests feel guided, not floodlit, and your staff swap cells in seconds.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <TrackedLink href="/resorts" event="cta_resorts" eventProps={{ location: "home_teaser" }} className={btn.primary}>
-                  See BLOB for resorts
-                </TrackedLink>
-                <TrackedLink href="/resorts#quote" event="cta_fleet_quote" eventProps={{ location: "home_teaser" }} className={btn.secondary}>
-                  Request a fleet quote
-                </TrackedLink>
-              </div>
-            </div>
           </div>
         </Container>
       </section>

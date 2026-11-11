@@ -385,3 +385,24 @@ a {
     opacity: 1 !important;
   }
 }
+
+/* Printable one-pager: hide site chrome, keep one clean A4 sheet. */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+  body > header,
+  body > footer,
+  header.sticky,
+  footer {
+    display: none !important;
+  }
+  .brief-sheet footer {
+    display: block !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+}

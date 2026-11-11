@@ -38,6 +38,7 @@ export const meta = z.object({
 
 export const INTERESTS = ["field", "soft", "atelier", "firefly_path", "undecided"] as const;
 export const PROPERTY_TYPES = ["resort", "homestay", "plantation_stay", "campsite", "other"] as const;
+export const B2B_INTERESTS = ["fleet_quote", "pilot", "night_demo"] as const;
 export const AREAS = ["paths", "gardens", "steps", "pool", "other"] as const;
 export const TIMELINES = ["within_3_months", "3_6_months", "6_12_months", "exploring"] as const;
 export const B2B_BUDGETS = ["under_1l", "1l_3l", "3l_10l", "over_10l", "not_sure"] as const;
@@ -72,6 +73,7 @@ export const b2bSchema = meta.extend({
     .int("Please enter a whole number.")
     .min(1, "At least 1 unit.")
     .max(100000, "That's more than we can quote online. Tell us in the message."),
+  interests: z.array(z.enum(B2B_INTERESTS)).max(B2B_INTERESTS.length).default([]),
   areas: z.array(z.enum(AREAS)).max(AREAS.length).default([]),
   timeline: z.enum(TIMELINES, { error: "Please choose a timeline." }),
   budget_range: optionalEnum(B2B_BUDGETS),

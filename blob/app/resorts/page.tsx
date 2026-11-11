@@ -46,6 +46,57 @@ export default function ResortsPage() {
         </div>
       </HeroScene>
 
+      <section id="pilot" aria-labelledby="pilot-title" className="scroll-mt-24 py-16">
+        <Container>
+          <div className="organic-card border border-dashed border-glow/50 bg-bg-raised px-6 py-10 sm:px-10">
+            <Eyebrow>Pilot programme · now choosing properties</Eyebrow>
+            <h2 id="pilot-title" className="text-3xl sm:text-4xl">
+              A limited pilot for <Placeholder k="PILOT_COUNT">3</Placeholder> Kerala properties.
+            </h2>
+            <p className="mt-4 max-w-2xl text-lg text-ink">
+              Discounted units in exchange for honest feedback and night photography.
+            </p>
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              <div>
+                <h3 className="text-xl">What you get</h3>
+                <ul className="mt-2 space-y-1.5 text-ink-muted">
+                  <li>· Discounted BLOB Field units for one path or garden</li>
+                  <li>· We plan the layout with you and install it</li>
+                  <li>· First place in line when Fleet Packs ship</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl">What we ask</h3>
+                <ul className="mt-2 space-y-1.5 text-ink-muted">
+                  <li>· Honest feedback from you and your staff</li>
+                  <li>· Permission to photograph and film the path at night</li>
+                  <li>· A short conversation after the first month</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl">How it works</h3>
+                <ol className="mt-2 space-y-1.5 text-ink-muted">
+                  <li>1. Tell us about your property below</li>
+                  <li>2. We visit or call, and walk the path with you</li>
+                  <li>3. We install once the first pilot units are built</li>
+                </ol>
+              </div>
+            </div>
+            <p className="mt-6 text-sm text-ink-muted">
+              BLOB is pre-launch: the first pilot units are still to be built, and installs follow once they are ready. The outline above is a draft; final terms: <Placeholder k="PILOT_TERMS">to be confirmed</Placeholder>.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <TrackedLink href="#quote" event="cta_pilot_apply" className={btn.primary}>
+                Apply for the pilot
+              </TrackedLink>
+              <TrackedLink href="/resorts/brief" event="cta_resorts_brief" className={btn.secondary}>
+                One-page brief (print / PDF)
+              </TrackedLink>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       <section aria-labelledby="benefits" className="py-20">
         <Container>
           <SectionHeading id="benefits" eyebrow="For operators" title="Built for the people who run the place." />
@@ -107,23 +158,6 @@ export default function ResortsPage() {
         </Container>
       </section>
 
-      <section id="pilot" aria-labelledby="pilot-title" className="py-16">
-        <Container>
-          <div className="organic-card border border-dashed border-glow/50 bg-bg-raised px-6 py-10 sm:px-10">
-            <Eyebrow>Pilot programme</Eyebrow>
-            <h2 id="pilot-title" className="text-3xl sm:text-4xl">
-              A limited pilot for <Placeholder k="PILOT_COUNT">3</Placeholder> Kerala properties.
-            </h2>
-            <p className="mt-4 max-w-2xl text-lg text-ink">
-              Discounted units in exchange for honest feedback and night photography.
-            </p>
-            <p className="mt-2 text-sm text-ink-muted">
-              Terms: <Placeholder k="PILOT_TERMS">pilot terms to be confirmed</Placeholder>. Mention &ldquo;pilot&rdquo; in your quote request.
-            </p>
-          </div>
-        </Container>
-      </section>
-
       <section id="quote" aria-labelledby="quote-title" className="scroll-mt-24 py-16">
         <Container className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <div>
@@ -131,7 +165,7 @@ export default function ResortsPage() {
               id="quote-title"
               eyebrow="Request a quote"
               title="Tell us about your nights."
-              lede="A few details about your property and paths. We'll reply with questions and a first quote."
+              lede="A few details about your property and paths. Tick the pilot or a night demo if you'd like one. We'll reply with questions and a first quote."
             />
             <p className="mt-6 text-sm text-ink-muted">Field units are indicatively priced from ₹999 per unit for 100+ units. Fleet Packs and installations are quoted individually.</p>
           </div>

@@ -61,3 +61,12 @@ Every non-obvious choice made while building the BLOB site, with the reason. New
 - **Function region `bom1` (Mumbai)**, close to Indian visitors and to Supabase `ap-south-1`.
 - **Zod `jitless` mode.** Zod 4 probes `new Function()` for JIT-compiled validators. Our CSP (correctly) has no `'unsafe-eval'`, which logged a CSP issue in Chrome DevTools and cost Best Practices points. Validation is just as correct without the JIT.
 - **Deployed without a database, at the owner's request.** Forms answer "Our forms are resting right now" in production until `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set and the migration is applied.
+
+## Phase 7: Resorts-first replan (marketing & sales)
+
+- **Beachhead is resorts and homestays (BLOB Field).** The home hero's primary button and the header button now lead to the resorts page and quote form; the waitlist is secondary. Reason: larger orders, owners reachable directly, and a pilot produces the proof every other audience needs. Full plan in `docs/sales/README.md`.
+- **Pilot section moved to the top of `/resorts`** with a draft outline (what you get, what we ask, how it works). It says plainly that pilot units are still to be built.
+- **Quote form gained "I'm interested in"** (fleet quote / pilot / night demo), stored in `b2b_enquiries.interests`. The migration was edited in place because it has not been applied to any database yet.
+- **`/resorts/brief`** is a printable one-page brief (A4, always light, `noindex`). It reads specs and prices from `content/products.ts`, so it can't drift from the site.
+- **Sales kit in `docs/sales/`:** plan, outreach messages, shortlist scoring + CSV, pilot terms draft, night-demo checklist. Nothing in them claims customers, ratings or tested specs.
+- **Supabase project creation was refused** (free plan limit of 2 active projects on the account). Left for the owner to decide: pause one, upgrade, or share an existing project.

@@ -33,6 +33,7 @@ create table if not exists public.b2b_enquiries (
   property_type text not null check (property_type in ('resort','homestay','plantation_stay','campsite','other')),
   location text not null,
   units_estimated integer not null check (units_estimated > 0),
+  interests text[] not null default '{}', -- fleet_quote | pilot | night_demo
   areas text[] not null default '{}',
   timeline text not null,
   budget_range text,

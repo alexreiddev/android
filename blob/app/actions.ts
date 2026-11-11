@@ -39,7 +39,7 @@ const CONFIGS: Record<FormKind, Config> = {
     kind: "b2b",
     table: "b2b_enquiries",
     schema: b2bSchema as unknown as z.ZodType<Record<string, unknown>>,
-    arrayKeys: ["areas"],
+    arrayKeys: ["areas", "interests"],
     notify: true,
     success: "Thank you. We'll read about your property and reply with a first quote.",
   },

@@ -40,7 +40,7 @@ All specs are **design targets**: runtime (~30 nights @ 2 h/night), 360° sensin
 | Key | Current |
 |---|---|
 | `PILOT_COUNT` | 3 (from brief, marked placeholder) |
-| `PILOT_TERMS` | "pilot terms to be confirmed" |
+| `PILOT_TERMS` | "to be confirmed". The three-column outline on the page (what you get / what we ask / how it works) is a **draft** I wrote; confirm or edit it. Full draft: `docs/sales/pilot-terms-draft.md` |
 
 ## Copy marked DRAFT
 - `STORY_FOUNDER`: founder section on `/story` (`content/story.ts`). Write in your own voice.

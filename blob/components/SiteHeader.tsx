@@ -71,12 +71,12 @@ export function SiteHeader() {
         <div className="flex items-center gap-1.5">
           <ThemeToggle />
           <TrackedLink
-            href="/#waitlist"
-            event="cta_join_waitlist"
+            href="/resorts#quote"
+            event="cta_fleet_quote"
             eventProps={{ location: "header" }}
             className={`${btn.primary} !px-4 !py-2 text-sm whitespace-nowrap max-sm:!hidden`}
           >
-            Join waitlist
+            Get a quote
           </TrackedLink>
           <button
             ref={toggleRef}
@@ -115,12 +115,12 @@ export function SiteHeader() {
             ))}
           </ul>
           <TrackedLink
-            href="/#waitlist"
-            event="cta_join_waitlist"
+            href="/resorts#quote"
+            event="cta_fleet_quote"
             eventProps={{ location: "mobile_menu" }}
             className={`${btn.primary} mt-6 w-full`}
           >
-            Join waitlist
+            Get a quote
           </TrackedLink>
         </nav>
       </div>
