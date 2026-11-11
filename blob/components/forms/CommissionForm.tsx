@@ -32,6 +32,8 @@ const budgets = [
   { value: "not_sure", label: "Not sure yet" },
 ];
 
+const uploadsEnabled = process.env.NEXT_PUBLIC_ATELIER_UPLOADS === "true";
+
 const fmtSize = (b: number) => (b > 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.ceil(b / 1024)} KB`);
 
 export function CommissionForm() {
@@ -107,6 +109,7 @@ export function CommissionForm() {
         <ChoiceGroup name="glass_finish" type="radio" label="Glass" options={finishes} required error={e.glass_finish} />
         <ChoiceGroup name="placement" type="radio" label="Indoor or outdoor" options={placements} required error={e.placement} />
 
+        {uploadsEnabled ? (
         <div className="sm:col-span-2">
           <label htmlFor={fileId} className="mb-1.5 block text-sm font-semibold text-ink-strong">
             Inspiration images <span className="font-normal text-ink-muted">(optional)</span>
@@ -155,6 +158,9 @@ export function CommissionForm() {
             )}
           </div>
         </div>
+        ) : (
+          <p className="text-sm text-ink-muted sm:col-span-2">Have sketches or photos of the space? You can send them by email after we reply.</p>
+        )}
 
         <SelectField name="budget_range" label="Budget range" options={budgets} error={e.budget_range} />
         <TextField name="desired_date" label="Desired date" type="month" error={e.desired_date} hint="Roughly when you'd like the pieces." />

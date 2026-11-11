@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { env } from "@/lib/env";
-import { getSupabaseAdmin } from "@/lib/supabase/server";
+import { getSupabase } from "@/lib/supabase/server";
 
 /** Verifies the Razorpay payment signature and records the reservation. */
 export async function POST(req: Request) {
@@ -33,16 +33,20 @@ export async function POST(req: Request) {
     /* stored without contact details; can be looked up in Razorpay */
   }
 
-  const sb = getSupabaseAdmin();
+  const sb = getSupabase();
   if (sb) {
-    const { error } = await sb.from("reservations").insert({
-      tier: ["field", "soft", "atelier"].includes(tier) ? tier : null,
-      razorpay_order_id: orderId,
-      razorpay_payment_id: paymentId,
-      amount_inr: amount,
-      email,
-      phone,
-      status: "paid",
+    const { error } = await sb.rpc("blob_submit", {
+      p_secret: env.dbSecret,
+      p_form: "reservation",
+      p_row: {
+        tier: ["field", "soft", "atelier"].includes(tier) ? tier : null,
+        razorpay_order_id: orderId,
+        razorpay_payment_id: paymentId,
+        amount_inr: amount,
+        email,
+        phone,
+        status: "paid",
+      },
     });
     if (error) console.error("[reservations] insert failed", error.message);
   }

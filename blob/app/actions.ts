@@ -6,7 +6,7 @@ import { env } from "@/lib/env";
 import { sendFormEmails, type FormKind } from "@/lib/email";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
-import { getSupabaseAdmin } from "@/lib/supabase/server";
+import { getSupabase } from "@/lib/supabase/server";
 import { verifyTurnstile } from "@/lib/turnstile";
 import {
   atelierSchema,
@@ -20,7 +20,6 @@ import {
 
 type Config = {
   kind: FormKind;
-  table: string;
   schema: z.ZodType<Record<string, unknown>>;
   arrayKeys?: string[];
   notify: boolean;
@@ -30,14 +29,12 @@ type Config = {
 const CONFIGS: Record<FormKind, Config> = {
   waitlist: {
     kind: "waitlist",
-    table: "waitlist",
     schema: waitlistSchema as unknown as z.ZodType<Record<string, unknown>>,
     notify: false,
     success: "You're on the list. We'll write when the first lights wake.",
   },
   b2b: {
     kind: "b2b",
-    table: "b2b_enquiries",
     schema: b2bSchema as unknown as z.ZodType<Record<string, unknown>>,
     arrayKeys: ["areas", "interests"],
     notify: true,
@@ -45,7 +42,6 @@ const CONFIGS: Record<FormKind, Config> = {
   },
   atelier: {
     kind: "atelier",
-    table: "atelier_commissions",
     schema: atelierSchema as unknown as z.ZodType<Record<string, unknown>>,
     arrayKeys: ["upload_paths"],
     notify: true,
@@ -53,7 +49,6 @@ const CONFIGS: Record<FormKind, Config> = {
   },
   contact: {
     kind: "contact",
-    table: "contact_messages",
     schema: contactSchema as unknown as z.ZodType<Record<string, unknown>>,
     notify: false,
     success: "Thank you for writing. We'll reply soon.",
@@ -90,7 +85,7 @@ async function handle(cfg: Config, formData: FormData): Promise<FormState> {
   const record = { ...parsed.data, status: "new" };
 
   // 5. Store
-  const sb = getSupabaseAdmin();
+  const sb = getSupabase();
   if (!sb) {
     if (!env.isProd) {
       console.info(`[forms] Supabase not configured. ${cfg.kind} submission (dev only):`, record);
@@ -99,14 +94,14 @@ async function handle(cfg: Config, formData: FormData): Promise<FormState> {
       return { status: "error", message: "Our forms are resting right now. Please try again later." };
     }
   } else {
-    const { error } = await sb.from(cfg.table).insert(record);
+    const { data, error } = await sb.rpc("blob_submit", { p_secret: env.dbSecret, p_form: cfg.kind, p_row: record });
     if (error) {
-      // A repeat waitlist signup is fine: treat as success.
-      if (cfg.kind === "waitlist" && error.code === "23505") {
-        return { status: "success", message: "You're already on the list. We'll be in touch." };
-      }
-      console.error(`[forms] insert into ${cfg.table} failed`, error.message);
+      console.error(`[forms] ${cfg.kind} submission failed`, error.message);
       return { status: "error", message: "Something went wrong saving that. Please try again in a moment." };
+    }
+    // A repeat waitlist signup is fine: treat as success, send nothing.
+    if (data === "duplicate") {
+      return { status: "success", message: cfg.kind === "waitlist" ? "You're already on the list. We'll be in touch." : cfg.success };
     }
   }
 

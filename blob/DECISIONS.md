@@ -70,3 +70,10 @@ Every non-obvious choice made while building the BLOB site, with the reason. New
 - **`/resorts/brief`** is a printable one-page brief (A4, always light, `noindex`). It reads specs and prices from `content/products.ts`, so it can't drift from the site.
 - **Sales kit in `docs/sales/`:** plan, outreach messages, shortlist scoring + CSV, pilot terms draft, night-demo checklist. Nothing in them claims customers, ratings or tested specs.
 - **Supabase project creation was refused** (free plan limit of 2 active projects on the account). Left for the owner to decide: pause one, upgrade, or share an existing project.
+
+## Phase 8: Shared database (safehouse)
+
+- **Owner chose to share the existing `safehouse` Supabase project** (free plan allows only 2 active projects).
+- **Everything BLOB is prefixed `blob_`** (tables, functions, bucket `blob-atelier-uploads`) so the two apps can't collide.
+- **The website does not hold safehouse's service-role key.** That key would let the BLOB site read and change safehouse's player and passkey data. Instead the site uses the publishable key plus its own secret (`BLOB_DB_SECRET`). Two `security definer` functions, `blob_submit()` and `blob_rate_limit_hit()`, check the secret against a SHA-256 hash stored in `blob_config` and can only write to BLOB tables. Without the secret, the publishable key can do nothing to BLOB's data.
+- **Atelier image uploads are switched off** (`NEXT_PUBLIC_ATELIER_UPLOADS=false`) because signed uploads need the service-role key. The form tells people they can email images after we reply. Turn it on only in a dedicated project.
